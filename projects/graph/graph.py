@@ -72,13 +72,15 @@ class Graph:
 
 
 
-    def dft_recursive(self, starting_vertex):
-        """
-        Print each vertex in depth-first order
-        beginning from starting_vertex.
-        This should be done using recursion.
-        """
-        pass  # TODO
+    def dft_recursive(self, starting_vertex, visited=set()):
+        visited.add(starting_vertex)
+        # print("self.verticies: ", self.vertices)
+        # print("self.verticies: ", self.vertices[1])
+        # print("starting vertex: ", starting_vertex)
+        # print("visited: ", visited)
+        
+        
+
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
