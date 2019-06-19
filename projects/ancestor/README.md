@@ -39,6 +39,7 @@ Example output
   10
 ```
 
+
 Clarifications:
 * The input will not be empty.
 * There are no cycles in the input.
