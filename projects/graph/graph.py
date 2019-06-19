@@ -46,7 +46,6 @@ class Graph:
                 # add all of it's neighbors to the back of the queue
                 for neighbor in self.vertices[vertex]:
                     queue.enqueue(neighbor)
-        print("End BFT")
 
 
 
@@ -77,13 +76,11 @@ class Graph:
                 for neighbor in self.vertices[vertex]:
                     # push edges to stack
                     stack.push(neighbor)
-        print("End DFT")
 
 
 
 
     def dft_recursive(self, starting_vertex, visited=None):
-        print("start recursive DFT")
         if visited is None:
             visited = set()
         # if starting_vertex is not in the visited set
@@ -95,7 +92,6 @@ class Graph:
             # call recursive for each child and send visited list
             for neighbor in self.vertices[starting_vertex]:
                 self.dft_recursive(neighbor, visited)
-        print("End recursive DFT")
 
 
     def bfs(self, starting_vertex, destination_vertex):
@@ -136,8 +132,20 @@ class Graph:
         # starting_vertex to destination_vertex in
         # depth-first order.
 
-        pass
-
+        visited = set()
+        stack = Stack()
+        stack.push([starting_vertex])
+        while stack.size() > 0:
+            path = stack.pop()
+            vertex = path[-1]
+            if vertex == destination_vertex:
+                return path
+            if vertex not in visited:
+                visited.add(vertex)
+                for neighbor in self.vertices[vertex]:
+                    path_copy = list(path)
+                    path_copy.append(neighbor)
+                    stack.push(path_copy)
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
@@ -173,7 +181,7 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft(1)
+    graph.dft(1)
 
     '''
     Valid BFT paths:
@@ -190,7 +198,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    # graph.bft(1)
+    graph.bft(1)
 
     '''
     Valid DFT recursive paths:
@@ -199,7 +207,8 @@ if __name__ == '__main__':
         1, 2, 4, 7, 6, 3, 5
         1, 2, 4, 6, 3, 5, 7
     '''
-    # graph.dft_recursive(1)
+    print("start recursive DFT")
+    graph.dft_recursive(1)
 
     '''
     Valid BFS path:
