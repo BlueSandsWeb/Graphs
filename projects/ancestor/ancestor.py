@@ -31,15 +31,10 @@ def earliest_ancestor(arr, number):
     findAncestor(arr, number)
     # loop over returned values
     final_answer = -1
-    # print("potential answers: ", answers)
-    # print("final answer: ", final_answer)
     for i in range(len(answers)):
-        # print(answers[i])
         if answers[i][1] == largest_count:
             if final_answer == -1 or final_answer > answers[i][0]:
-                # print("change final answer")
                 final_answer = answers[i][0]
-    # print("final answer: ", final_answer)
     return final_answer
 
 # print(earliest_ancestor([(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)], 2))
