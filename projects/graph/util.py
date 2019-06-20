@@ -1,6 +1,6 @@
 class Queue():
     def __init__(self):
-        self.queue = []
+        self.queue = []         # don't use lists (arrays) for large data sets
     def enqueue(self, value):
         self.queue.append(value)
     def dequeue(self):
