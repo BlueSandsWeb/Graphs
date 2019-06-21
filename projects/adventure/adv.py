@@ -24,30 +24,96 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 
-
-# MY CODE
+########################################################### Start my code ##############################################
 # You may find the commands `player.currentRoom.id`, `player.currentRoom.getExits()` and `player.travel(direction)` useful.
 
-map = {}
-exits = player.currentRoom.getExits()
+from util import Stack, Queue
 
-for exit in player.currentRoom.getExits():
-    print(exit)
-    # map[player.currentRoom.id] = 
+class Graph:
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    def __init__(self):
+        self.map = {}
+        self.visited = set()
+        self.prev_room = 0
+        self.prev_direction = ''
+        self.current_room = 0
+        self.traversalPath = []
+
+    # def recursive_dungeon_crawl(self):
+    #     pass
+
+    def dungeon_crawl(self, room):
+        # have a stack
+        # go n, e, s or w
+        # add choice to stack
+        # loop while stack > 0 (make this a seperate callable function)
+            # if you can go somewhere that is a ?
+                # move count += 1
+                # go n, e, s or w that is a ?
+                # add movement to traversalPath
+            # if you can't go back 
+                # move count += 1
+                # remove from stack and go back to that spot (opposite of direction on stack)
+                # add movement to traversalPath
+        # when stack is == 0 (back at start) check if start room has ?
+        # if so, call loop again on that direction
 
 
-# print(map[0])
-# player.travel('n')
-# map[player.currentRoom.id] = player.currentRoom.getExits()
-# print(map[1])
-# player.travel('n')
-# map[player.currentRoom.id] = player.currentRoom.getExits()
-# print(map[2])
-# print(player.currentRoom.id)
+        if room not in self.map:
+            self.add_room
+
+    def add_room(self):
+        exits = {}
+        self.visited.add(self.current_room)
+        for direction in player.currentRoom.getExits():
+            exits.update({direction: '?'})
+            self.map[player.currentRoom.id] = exits
+
+    def update_map(self):
+        self.map[self.prev_room][self.prev_direction] = self.current_room
+        if self.prev_direction == 'n':
+            o_direction = 's'
+        if self.prev_direction == 's':
+            o_direction = 'n'
+        if self.prev_direction == 'e':
+            o_direction = 'w'
+        if self.prev_direction == 'w':
+            o_direction = 'e'
+        self.map[self.current_room][o_direction] = self.prev_room
+
+    def go(self, direction):
+        # change prev_room to current current room
+        self.prev_room = player.currentRoom.id
+        # move player
+        player.travel(direction)
+        # change prev_direction to direction moved
+        self.prev_direction = direction
+        # change current room to player's new location
+        self.current_room = player.currentRoom.id
+        # add movement to path
+        self.traversalPath.append(direction)
+        # if current room not in map
+        if self.current_room not in self.map:
+            # add room to map
+            self.add_room()
+        self.update_map()
+        print(self.map)
+
+dungeon = Graph()
+
+# dungeon.dungeon_crawl()
+
+dungeon.add_room()
+dungeon.go("n")
+dungeon.go("n")
+dungeon.go("s")
+dungeon.go("e")
+dungeon.go("e")
+traversalPath = dungeon.traversalPath
+print(traversalPath)
 
 
-
-
+########################################################### End my code ##############################################
 
 # TRAVERSAL TEST
 visited_rooms = set()

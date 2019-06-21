@@ -55,4 +55,6 @@ If all paths have been explored, you're done!
 
 It is very difficult to calculate the shortest possible path that traverses the entire graph. Why?
 
+  In part it's because there are so many different ways to traverse the set of rooms.
+
 My best path is 990 moves. Can you find a shorter path?
