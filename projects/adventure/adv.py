@@ -42,11 +42,26 @@ class Graph:
     # def recursive_dungeon_crawl(self):
     #     pass
 
-    def dungeon_crawl(self, room):
-        # have a stack
-        # go n, e, s or w
-        # add choice to stack
+    def dungeon_crawl(self):
+        # add initial room to map
+        self.add_room()
+        # print(self.map)
+        # make a stack
+        stack = Stack()
+        stack.push(self.current_room)
+        stack.push(1)
         # loop while stack > 0 (make this a seperate callable function)
+        while stack.size() > 0:
+            self.current_room = stack.stack[stack.size()-1]
+            print(self.map)
+            if self.map[self.current_room]['n'] == '?':
+                self.go('n')
+            elif self.map[self.current_room]['e'] == '?':
+                self.go('e')
+            elif self.map[self.current_room]['s'] == '?':
+                self.go('s')
+            elif self.map[self.current_room]['w'] == '?':
+                self.go('w')
             # if you can go somewhere that is a ?
                 # move count += 1
                 # go n, e, s or w that is a ?
@@ -55,12 +70,10 @@ class Graph:
                 # move count += 1
                 # remove from stack and go back to that spot (opposite of direction on stack)
                 # add movement to traversalPath
+            # break
         # when stack is == 0 (back at start) check if start room has ?
         # if so, call loop again on that direction
 
-
-        if room not in self.map:
-            self.add_room
 
     def add_room(self):
         exits = {}
@@ -101,19 +114,14 @@ class Graph:
 
 dungeon = Graph()
 
-# dungeon.dungeon_crawl()
+dungeon.dungeon_crawl()
 
-dungeon.add_room()
-dungeon.go("n")
-dungeon.go("n")
-dungeon.go("s")
-dungeon.go("e")
-dungeon.go("e")
-traversalPath = dungeon.traversalPath
-print(traversalPath)
+# dungeon.add_room()
+# dungeon.go("n")
+# dungeon.go("n")
 
 
-########################################################### End my code ##############################################
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
