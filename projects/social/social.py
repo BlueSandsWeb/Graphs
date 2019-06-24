@@ -26,6 +26,7 @@ class SocialGraph:
         """
         Create a new user with a sequential integer ID
         """
+
         self.lastID += 1  # automatically increment the ID to assign the new user
         self.users[self.lastID] = User(name)
         self.friendships[self.lastID] = set()
@@ -45,10 +46,15 @@ class SocialGraph:
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        
         # Add users
-
+        for i in range(numUsers):
+            self.addUser(f'User{i}')
         # Create friendships
+        # loop through list, give everyone at least one friendship
+        # now add friendships randomly up to avg ((friendships * numUsers) - length of list * 2) 
+
+        # Send this to brady and ask for feedback when finished with this section
 
     def getAllSocialPaths(self, userID):
         """
@@ -61,6 +67,9 @@ class SocialGraph:
         """
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+        # breadth first search that retains path
+        # when a path is found, return it, it's the shortest
+        
         return visited
 
 

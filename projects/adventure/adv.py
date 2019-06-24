@@ -24,6 +24,158 @@ player = Player("Name", world.startingRoom)
 # Fill this out
 traversalPath = []
 
+########################################################### Start my code ##############################################
+# You may find the commands `player.currentRoom.id`, `player.currentRoom.getExits()` and `player.travel(direction)` useful.
+
+from util import Stack, Queue
+
+class Graph:
+    """Represent a graph as a dictionary of vertices mapping labels to edges."""
+    def __init__(self):
+        self.map = {}
+        self.visited = set()
+        self.prev_room = 0
+        self.prev_direction = ''
+        self.current_room = 0
+        self.traversalPath = []
+        self.moves = 0
+
+    # def recursive_dungeon_crawl(self):
+    #     pass
+
+    def dungeon_crawl(self):
+        # add initial room to map
+        self.add_room()
+        # print(self.map)
+        # make a stack
+        stack = Stack()
+        # stack.push(self.current_room)
+        # loop while stack > 0 (make this a seperate callable function)
+        while True:
+            # if you can go somewhere that is a ?
+                # move count += 1
+                # go n, e, s or w that is a ?
+                # add movement to traversalPath
+            if 'n' in self.map[self.current_room] and self.map[self.current_room]['n'] == '?':
+                stack.push(self.current_room)
+                # self.current_room = stack.stack[stack.size()-1]
+                self.moves += 1
+                print("moves: ", self.moves)
+                print('going n')
+                self.go('n')
+                print("current room: ", self.current_room)
+                print("Traversal Path: ", self.traversalPath)
+            elif 'e' in self.map[self.current_room] and self.map[self.current_room]['e'] == '?':
+                # self.current_room = stack.stack[stack.size()-1]
+                stack.push(self.current_room)
+                self.moves += 1
+                print("moves: ", self.moves)
+                print('going e')
+                self.go('e')
+                print("current room: ", self.current_room)
+                print(self.traversalPath)
+            elif 's' in self.map[self.current_room] and self.map[self.current_room]['s'] == '?':
+                stack.push(self.current_room)
+                # self.current_room = stack.stack[stack.size()-1]
+                self.moves += 1
+                print("moves: ", self.moves)
+                print('going s')
+                self.go('s')
+                print("current room: ", self.current_room)
+                print(self.traversalPath)
+            elif 'w' in self.map[self.current_room] and self.map[self.current_room]['w'] == '?':
+                stack.push(self.current_room)
+                # self.current_room = stack.stack[stack.size()-1]
+                self.moves += 1
+                print("moves: ", self.moves)
+                print('going w')
+                self.go('w')
+                print("current room: ", self.current_room)
+                print(self.traversalPath)
+            # if you can't then go back // stack.push(1)
+            else:
+                print("ELSE")
+                # move count += 1
+                self.moves += 1
+                print("Moves: ", self.moves)
+                # remove from stack and go back to that spot (opposite of direction on stack)
+                traveled_from = stack.pop()
+                for direction in self.map[self.current_room]:
+                    print("debugging")
+                    print('direction: ', direction)
+                    print('map current room: ', self.map[self.current_room])
+                    print('traveled_from: ', traveled_from)
+                    if direction in self.map[self.current_room] and self.map[self.current_room][direction] == traveled_from:
+                        self.go(direction)
+                        print("going: ", direction)
+                        # add movement to traversalPath
+                        # self.traversalPath.append(direction)
+                print("current room:", self.current_room)
+            print("stack: ", stack.stack)
+            print("Traversal Path: ", self.traversalPath)
+            print("===========================================================")
+            print("MAP", '?' not in self.map[0].values())
+            
+            finished = True
+            for room in self.map:
+                if '?' in self.map[room].values():
+                    finished = False
+
+            if finished == True:
+                global traversalPath
+                traversalPath = self.traversalPath
+                break
+        # when stack is == 0 (back at start) check if start room has ?
+        # if so, call loop again on that direction
+
+
+    def add_room(self):
+        exits = {}
+        self.visited.add(self.current_room)
+        for direction in player.currentRoom.getExits():
+            exits.update({direction: '?'})
+            self.map[player.currentRoom.id] = exits
+
+    def update_map(self):
+        self.map[self.prev_room][self.prev_direction] = self.current_room
+        if self.prev_direction == 'n':
+            o_direction = 's'
+        if self.prev_direction == 's':
+            o_direction = 'n'
+        if self.prev_direction == 'e':
+            o_direction = 'w'
+        if self.prev_direction == 'w':
+            o_direction = 'e'
+        self.map[self.current_room][o_direction] = self.prev_room
+
+    def go(self, direction):
+        # change prev_room to current current room
+        self.prev_room = player.currentRoom.id
+        # move player
+        player.travel(direction)
+        # change prev_direction to direction moved
+        self.prev_direction = direction
+        # change current room to player's new location
+        self.current_room = player.currentRoom.id
+        print("CURRENT ROOM: ", self.current_room)
+        # add movement to path
+        self.traversalPath.append(direction)
+        # if current room not in map
+        if self.current_room not in self.map:
+            # add room to map
+            self.add_room()
+        self.update_map()
+        print("MAP: ", self.map)
+
+dungeon = Graph()
+
+dungeon.dungeon_crawl()
+
+# dungeon.add_room()
+# dungeon.go("n")
+# dungeon.go("n")
+
+
 
 
 # TRAVERSAL TEST
